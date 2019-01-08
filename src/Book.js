@@ -5,7 +5,7 @@ class Book extends React.Component
 {
 
     state = {
-        shelf:"none"
+        ID:""
     }
 
     // static getDerivedStateFromProps(props, state){
@@ -17,11 +17,11 @@ class Book extends React.Component
     // }
 
     componentDidMount(){
-        this.setState({shelf:this.props.shelf})
+        this.setState({ID:this.props.ID})
     }
 
     selectionHandler= (event)=>{
-        this.setState ({shelf:event.target.value})
+        this.props.moveShelves(event.target.value, this.props.ID)
     }
 
     render(){
@@ -31,7 +31,7 @@ class Book extends React.Component
                 <div className="book-top">
                 <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: "url("+ this.props.thumbnail +")" }}></div>
                 <div className="book-shelf-changer">
-                    <select value={this.state.shelf} onChange={this.selectionHandler}>
+                    <select value={this.props.shelf} onChange={this.selectionHandler}>
                         <option value="move" disabled>Move to...</option>
                         <option value="currentlyReading">Currently Reading</option>
                         <option value="wantToRead">Want to Read</option>
@@ -52,7 +52,9 @@ Book.propTypes = {
     title: PropTypes.string.isRequired,
     authors: PropTypes.array.isRequired,
     thumbnail: PropTypes.string.isRequired,
-    shelf: PropTypes.string.isRequired
+    shelf: PropTypes.string.isRequired,
+    ID: PropTypes.string.isRequired,
+    moveShelves: PropTypes.func.isRequired
 }
 
 export default Book
