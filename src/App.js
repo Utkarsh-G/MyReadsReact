@@ -53,6 +53,8 @@ class BooksApp extends React.Component {
         if (newShelf === "wantToRead") booksOnWTR_.push(book)
         if (newShelf === "read") booksOnR_.push(book)
 
+        BooksAPI.update(book,newShelf).then()
+
         return ({booksOnCR: booksOnCR_, booksOnWTR: booksOnWTR_, booksOnR: booksOnR_})
 
       })
