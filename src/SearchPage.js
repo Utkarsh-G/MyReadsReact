@@ -28,11 +28,27 @@ class SearchPage extends React.Component
 
     render(){
         const {query, results} = this.state
+        const {shelfBooks} = this.props
+        
+        const shelfIDs = shelfBooks.map(book=>book.id)
+        let booksUpdated = []
+        if(results.length > 0)
+        {
+            for(let bookR of results)
+            {
+    
+                const shelfCopy = shelfBooks.find(bookS => bookS.id === bookR.id)
+    
+                if(shelfCopy)
+                    booksUpdated.push(shelfCopy)
+                else
+                    booksUpdated.push({...bookR,shelf:"none"})
+            }
+        }
 
         return(
             <div className="search-books">
             <div className="search-books-bar">
-              {/* <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button> */}
               <Link to='/' className="close-search">Close</Link>
               <div className="search-books-input-wrapper">
                 {/*
@@ -48,18 +64,18 @@ class SearchPage extends React.Component
               </div>
             </div>
             <div className="search-books-results">
-                <p>{query}</p>
-                { (results.length > 1) &&
+                { (results.length > 0) &&
                     <ol className="books-grid">
-                        {results.map(book => 
+                        {booksUpdated.map(book => 
                         <li key={book.id}>
                         {((book.authors) && <Book
                                 title={book.title}
                                 authors={book.authors}
                                 thumbnail={book.imageLinks.thumbnail}
                                 shelf={book.shelf}
-                                moveShelves = {()=>{}}
+                                moveShelves = {this.props.moveShelves}
                                 ID={book.id}
+                                book={book}
                             />)}
                         </li>)}
                     </ol>
@@ -73,13 +89,9 @@ class SearchPage extends React.Component
 
 }
 
-// Book.propTypes = {
-//     title: PropTypes.string.isRequired,
-//     authors: PropTypes.array.isRequired,
-//     thumbnail: PropTypes.string.isRequired,
-//     shelf: PropTypes.string.isRequired,
-//     ID: PropTypes.string.isRequired,
-//     moveShelves: PropTypes.func.isRequired
-// }
+SearchPage.propTypes = {
+    books: PropTypes.array.isRequired,
+    moveShelves: PropTypes.func.isRequired
+}
 
 export default SearchPage

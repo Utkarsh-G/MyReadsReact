@@ -23,6 +23,7 @@ class Shelf extends React.Component {
                                 shelf={this.props.shelfID}
                                 moveShelves = {this.props.moveShelves}
                                 ID={book.id}
+                                book={book}
                             />
                             </li>
                         )}

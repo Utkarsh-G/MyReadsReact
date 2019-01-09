@@ -41,20 +41,20 @@ class BooksApp extends React.Component {
     )
   }
 
-  moveToOtherShelf = (newShelf, bookID) =>
+  moveToOtherShelf = (newShelf, bookID, newBook) =>
   {
-        const book = this.state.books.find(book => book.id === bookID);
+        //const book = this.state.books.find(book => book.id === bookID);
 
         this.setState(prevState => {
         let booksOnCR_ = prevState.booksOnCR.filter(book => book.id !== bookID)
         let booksOnWTR_ = prevState.booksOnWTR.filter(book => book.id !== bookID)
         let booksOnR_ = prevState.booksOnR.filter(book => book.id !== bookID)
 
-        if (newShelf === "currentlyReading") booksOnCR_.push(book)
-        if (newShelf === "wantToRead") booksOnWTR_.push(book)
-        if (newShelf === "read") booksOnR_.push(book)
+        if (newShelf === "currentlyReading") booksOnCR_.push(newBook)
+        if (newShelf === "wantToRead") booksOnWTR_.push(newBook)
+        if (newShelf === "read") booksOnR_.push(newBook)
 
-        BooksAPI.update(book,newShelf).then()
+        BooksAPI.update(newBook,newShelf).then()
 
         return ({booksOnCR: booksOnCR_, booksOnWTR: booksOnWTR_, booksOnR: booksOnR_})
 
@@ -69,7 +69,7 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route path='/search' render={()=>(
-          <SearchPage />
+          <SearchPage shelfBooks={this.state.books} moveShelves={this.moveToOtherShelf}/>
           )} />
           
         <Route exact path='/' render={()=>(<div className="list-books">
