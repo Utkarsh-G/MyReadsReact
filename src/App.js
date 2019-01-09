@@ -28,9 +28,6 @@ class BooksApp extends React.Component {
         const CRbooks = books.filter(book => book.shelf === "currentlyReading")
         const WTRbooks = books.filter(book => book.shelf === "wantToRead")
         const Rbooks = books.filter(book => book.shelf === "read")
-        console.log(CRbooks)
-        console.log(WTRbooks)
-        console.log(Rbooks)
         this.setState(_ => ({
           books:books,
           booksOnCR: CRbooks,
@@ -49,10 +46,16 @@ class BooksApp extends React.Component {
         let booksOnCR_ = prevState.booksOnCR.filter(book => book.id !== bookID)
         let booksOnWTR_ = prevState.booksOnWTR.filter(book => book.id !== bookID)
         let booksOnR_ = prevState.booksOnR.filter(book => book.id !== bookID)
+        //let books_ = prevState.books.filter(book => book.id !== bookID)
 
-        if (newShelf === "currentlyReading") booksOnCR_.push(newBook)
-        if (newShelf === "wantToRead") booksOnWTR_.push(newBook)
-        if (newShelf === "read") booksOnR_.push(newBook)
+        if (newShelf === "currentlyReading") booksOnCR_.push({...newBook, shelf:newShelf})
+        if (newShelf === "wantToRead") booksOnWTR_.push({...newBook, shelf:newShelf})
+        if (newShelf === "read") booksOnR_.push({...newBook, shelf:newShelf})
+        //books_ = books_.push({...newBook, shelf:newShelf})
+        // let newBooks
+
+        // if (!prevState.books.find(book => book.id === bookID))
+        //   newBooks = [...prevState.books, newBook]
 
         BooksAPI.update(newBook,newShelf).then()
 
@@ -69,7 +72,7 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route path='/search' render={()=>(
-          <SearchPage shelfBooks={this.state.books} moveShelves={this.moveToOtherShelf}/>
+          <SearchPage shelfBooks={this.state.booksOnCR.concat(this.state.booksOnWTR,this.state.booksOnR)} moveShelves={this.moveToOtherShelf}/>
           )} />
           
         <Route exact path='/' render={()=>(<div className="list-books">

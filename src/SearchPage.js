@@ -19,8 +19,8 @@ class SearchPage extends React.Component
 
         if(event.target.value !== "")
             search(event.target.value).then((res)=>{
-                console.log(res)
                 this.setState({results:res})
+                console.log(res)
             })
         else
             this.setState({results:[{imageLinks:""}]})
@@ -30,9 +30,8 @@ class SearchPage extends React.Component
         const {query, results} = this.state
         const {shelfBooks} = this.props
         
-        const shelfIDs = shelfBooks.map(book=>book.id)
         let booksUpdated = []
-        if(results.length > 0)
+        if(results.length > 0 && results[0].imageLinks !== "")
         {
             for(let bookR of results)
             {
@@ -51,24 +50,15 @@ class SearchPage extends React.Component
             <div className="search-books-bar">
               <Link to='/' className="close-search">Close</Link>
               <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
                 <input type="text" placeholder="Search by title or author" value={query} onChange={this.inputHandler}/>
-
               </div>
             </div>
             <div className="search-books-results">
-                { (results.length > 0) &&
+                { (booksUpdated.length > 0) &&
                     <ol className="books-grid">
                         {booksUpdated.map(book => 
                         <li key={book.id}>
-                        {((book.authors) && <Book
+                        {((book.authors) && (book.imageLinks) && <Book
                                 title={book.title}
                                 authors={book.authors}
                                 thumbnail={book.imageLinks.thumbnail}
@@ -90,7 +80,7 @@ class SearchPage extends React.Component
 }
 
 SearchPage.propTypes = {
-    books: PropTypes.array.isRequired,
+    shelfBooks: PropTypes.array.isRequired,
     moveShelves: PropTypes.func.isRequired
 }
 

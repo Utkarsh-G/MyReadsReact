@@ -23,7 +23,6 @@ class Book extends React.Component
 
     selectionHandler= (event)=>{
         const newShelf=event.target.value;
-        console.log(newShelf)
         this.props.moveShelves(newShelf, this.props.ID, this.props.book)
         this.setState(_=>({shelf:newShelf}))
     }
