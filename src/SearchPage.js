@@ -20,7 +20,6 @@ class SearchPage extends React.Component
         if(event.target.value !== "")
             search(event.target.value).then((res)=>{
                 this.setState({results:res})
-                console.log(res)
             })
         else
             this.setState({results:[{imageLinks:""}]})

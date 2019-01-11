@@ -2,26 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Book from './Book'
 
-class Shelf extends React.Component {
-    state = {
-        books: [],
-        title: ""
-    }
+const Shelf = (props) => (
 
-    render(){
-        return(
                 <div className="bookshelf">
-                  <h2 className="bookshelf-title">{this.props.title}</h2>
+                  <h2 className="bookshelf-title">{props.title}</h2>
                   <div className="bookshelf-books">
                     <ol className="books-grid">
-                        {this.props.books.map(book => 
+                        {props.books.map(book => 
                             <li key={book.id}>
                             <Book
                                 title={book.title}
                                 authors={book.authors}
                                 thumbnail={book.imageLinks.thumbnail}
-                                shelf={this.props.shelfID}
-                                moveShelves = {this.props.moveShelves}
+                                shelf={props.shelfID}
+                                moveShelves = {props.moveShelves}
                                 ID={book.id}
                                 book={book}
                             />
@@ -31,10 +25,7 @@ class Shelf extends React.Component {
                   </div>
                 </div>
 
-        )
-    }
-
-}
+)
 
 Shelf.propTypes = {
     title: PropTypes.string.isRequired,
